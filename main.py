@@ -1,38 +1,27 @@
 import csv 
 import uuid
 
-run = True
-
-class invData:
-    def __init__(self, name, box, id):
-        self.name = name
-        self.box = box
-        self.id = id
-    def getAll(self):
-        id = uuid.uuid4()
-        return [self.box, self.name, str(self.id)]
-
-
-kabel = invData("kabel", 1, id)
-
-data = kabel.getAll()
-
-while(run):
-    inp = input()
-    print(inp)
-
-    if inp.split()[0] == "get" and inp.split()[1] == "all":
-        with open("data.csv", "r", encoding="utf-8") as fileRead:
-            reader = csv.reader(fileRead)
-            for line in reader:
-                print(line)
-
-    
-    if inp == "exit":
-        run = False
-
-
+with open("data.csv", "r", encoding="utf-8") as fileRead:
+    reader = csv.reader(fileRead)
 
 with open("data.csv", "a", newline="", encoding="utf-8") as fileAppend:
-    writer = csv.writer(file)
-    writer.writerow(data)
+    writer = csv.writer(fileAppend)
+
+while(1):
+    cmd = input()
+  
+    if cmd.split()[0] == "get" and cmd.split()[1] == "all":
+        for line in reader:
+            print(line)
+
+    elif cmd.split()[0] == "add" and cmd.split()[2] == "to":
+
+        details = cmd.split()[1]
+        box = cmd.split()[3]
+        id = uuid.uuid4()
+        writer.writerow([box, details, id])
+         
+    elif cmd == "exit":
+        break
+    else:
+        print("invalid command")
