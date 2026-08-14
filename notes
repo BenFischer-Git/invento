@@ -1,7 +1,8 @@
 befehle:
-add "" to ""
+#add "" to ""
 find ""
 del ""
 move "" to ""
-get all
-exit
+#get all
+delete all
+#exit

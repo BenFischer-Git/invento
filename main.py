@@ -1,27 +1,56 @@
-import csv 
+import csv
 import uuid
+import sys
 
-with open("data.csv", "r", encoding="utf-8") as fileRead:
-    reader = csv.reader(fileRead)
+def main():
+    def getAll():
+        with open("data.csv", "r", encoding="utf-8") as dataRead:
+            reader = csv.reader(dataRead)
+            for line in reader:
+                print(line)
 
-with open("data.csv", "a", newline="", encoding="utf-8") as fileAppend:
-    writer = csv.writer(fileAppend)
+    def deleteAll():
+        open("data.csv", "w+")
 
-while(1):
-    cmd = input()
-  
-    if cmd.split()[0] == "get" and cmd.split()[1] == "all":
-        for line in reader:
-            print(line)
+    def addItem(details, box):
+        itemId = str(uuid.uuid4())
+        with open("data.csv", "a", newline="", encoding="utf-8") as dataAppend:
+            writer = csv.writer(dataAppend)
+            writer.writerow([box, details, itemId])
 
-    elif cmd.split()[0] == "add" and cmd.split()[2] == "to":
+    def getItem(details):
+        print("space")
 
-        details = cmd.split()[1]
-        box = cmd.split()[3]
-        id = uuid.uuid4()
-        writer.writerow([box, details, id])
-         
-    elif cmd == "exit":
-        break
-    else:
-        print("invalid command")
+    while True:
+        cmd = input().strip()
+        parts = cmd.split()
+
+        if parts[0] == "get" and parts[1] == "all" and len(parts) == 2:
+            getAll()
+
+        elif parts[0] == "delete" and parts[1] == "all" and len(parts) == 2:
+            print(">>>confirm:")
+            confirmation = input()
+            if confirmation == "confirm":
+                deleteAll()
+                print("all items deleted")
+            else:
+                print(">>>wrong confirmation")
+
+        elif parts[0] == "add" and parts[2] == "to" and len(parts) == 4:
+            details = parts[1]
+            box = parts[3]
+            addItem(details, box)
+            print(">>>item added")
+
+        elif cmd == "exit":
+            break
+
+        else:
+            print(">>>invalid command")
+
+if __name__ == '__main__':
+    try:
+        main()
+    except KeyboardInterrupt:
+        sys.exit(0)
