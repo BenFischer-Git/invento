@@ -19,7 +19,11 @@ def main():
             writer.writerow([box, details, itemId])
 
     def getItem(details):
-        print("space")
+        with open("data.csv", "r", encoding="utf-8") as dataRead:
+            reader = csv.reader(dataRead, delimiter=",")
+            for line in reader:
+                if details in dataRead:
+                    print(line)
 
     while True:
         cmd = input().strip()
@@ -42,6 +46,10 @@ def main():
             box = parts[3]
             addItem(details, box)
             print(">>>item added")
+
+        elif parts[0] == "get" and len(parts) == 2:
+            details = parts[1]
+            getItem(details)
 
         elif cmd == "exit":
             break

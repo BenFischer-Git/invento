@@ -4,5 +4,5 @@ find ""
 del ""
 move "" to ""
 #get all
-delete all
+#delete all
 #exit
